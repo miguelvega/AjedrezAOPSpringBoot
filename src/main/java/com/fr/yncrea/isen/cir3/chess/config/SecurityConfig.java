@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/register").permitAll()
+                .antMatchers("/game/test-error").permitAll()
                 .anyRequest().authenticated()
                     .and()
                 .formLogin()

@@ -1,5 +1,6 @@
 package com.fr.yncrea.isen.cir3.chess.controller;
 
+import com.fr.yncrea.isen.cir3.chess.annotation.RequireLogin;
 import com.fr.yncrea.isen.cir3.chess.domain.*;
 import com.fr.yncrea.isen.cir3.chess.form.PromoteForm;
 import com.fr.yncrea.isen.cir3.chess.repository.*;
@@ -48,7 +49,7 @@ public class GameController {
     private UserRepository users;
 
     private Logger logger = LoggerFactory.getLogger(GameController.class);
-
+    @RequireLogin
     @GetMapping("/init/{whiteUserId}/{blackUserId}")
     public String init(
             @PathVariable Long whiteUserId,
@@ -100,7 +101,7 @@ public class GameController {
 
         return INDEX_REDIRECTION;
     }
-
+    @RequireLogin
     @GetMapping("/play/{id}")
     public String play(
             final Model model,
@@ -140,7 +141,7 @@ public class GameController {
         logger.info("game {} not found for route /play/{}", id, id);
         return INDEX_REDIRECTION;
     }
-
+    @RequireLogin
     @GetMapping("/promote/{gameId}/{promoteId}")
     public String promote(final Model model,
                           @PathVariable final Long gameId,
@@ -161,7 +162,7 @@ public class GameController {
         logger.info("game {} not found for route /promote/{}/{}", gameId, gameId, promoteId);
         return INDEX_REDIRECTION;
     }
-
+    @RequireLogin
     @PostMapping("/promote")
     public String promoteForm(PromoteForm form, BindingResult result) {
         if (result.hasErrors()) {
@@ -185,7 +186,7 @@ public class GameController {
         return "game-promote";
     }
 
-
+    @RequireLogin
     @GetMapping("/endgame/{gameId}/{winner}/{looser}")
     public String EndGame(@PathVariable final Long gameId,
                           @PathVariable final String winner,
@@ -214,7 +215,7 @@ public class GameController {
         return GAME_REDIRECTION + gameId;
     }
 
-
+    @RequireLogin
     @GetMapping("/passant/{gameId}/{pawnId}/{x}/{y}")
     public String priseEnPassant(
             @PathVariable final Long gameId,
@@ -265,7 +266,7 @@ public class GameController {
         }
         return INDEX_REDIRECTION;
     }
-
+    @RequireLogin
     @GetMapping("/move/{gameId}/{pawnId}/{x}/{y}")
     public String moveOnVoidCell(final Model model,
                                  @PathVariable final Long gameId,
@@ -325,7 +326,7 @@ public class GameController {
         logger.info("game {} not found for route /move/{}/...", gameId, gameId);
         return INDEX_REDIRECTION;
     }
-
+    @RequireLogin
     @GetMapping("/move/{gameId}/{pawnId1}/{pawnId2}")
     public String moveOnAnyPawn(final Model model,
                                 @PathVariable final Long gameId,
@@ -395,6 +396,11 @@ public class GameController {
         }
         logger.info("game {} not found for route moveOnAnyPawn", gameId);
         return INDEX_REDIRECTION;
+    }
+
+    @GetMapping("/test-error")
+    public String testError() {
+        throw new RuntimeException("Este es un error de prueba.");
     }
 
 }
