@@ -9,6 +9,17 @@ public class Game {
     /**
      * to convert the time from milliseconds to seconds.
      */
+    
+    private Long lastMoveTimestamp;
+    public Long getLastMoveTimestamp() {
+        return lastMoveTimestamp;
+    }
+
+    public void setLastMoveTimestamp(Long lastMoveTimestamp) {
+        this.lastMoveTimestamp = lastMoveTimestamp;
+    }
+
+
     private static final int S_CONVERT = 1000;
 
     public static final int NUMBER_OF_PLAYER_IN_GAME = 2;
